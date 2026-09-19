@@ -402,12 +402,13 @@ document.addEventListener("keydown",e=>{
   if(e.key===" "){e.preventDefault();$("#show").click();}
   if(e.key==="r"||e.key==="R"){if(mode==="rand")$("#reshuffle").click();}
 });
-
+const perpere = 2;
 const savedF=localStorage.getItem("focusSet");
 if(savedF){$("#focusList").value=savedF;focusIds=parseFocus(savedF);}
 const savedP=localStorage.getItem("randPool");
 if(savedP)$("#randPool").value=savedP;
 renderAll();
+
 const h=location.hash.replace("#","");
 setMode(["one","focus","rand"].includes(h)?h:"all");
 </script>
