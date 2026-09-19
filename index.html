@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>116 Preguntas · Primera Comunión y Confirmación</title>
+<style>
+:root{
+  --bg:#0f1220; --card:#181c2f; --card2:#20253d; --txt:#e9ecf5;
+  --muted:#9aa3c0; --acc:#7c5cff; --acc2:#22c55e; --brd:#2c3250;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg);color:var(--txt);line-height:1.55}
+header{position:sticky;top:0;z-index:10;background:rgba(15,18,32,.95);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--brd);padding:14px 16px}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:1.05rem;margin:0 0 10px;font-weight:600}
+h1 span{color:var(--muted);font-weight:400;font-size:.85rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{background:var(--card);border:1px solid var(--brd);color:var(--muted);
+  padding:8px 14px;border-radius:999px;cursor:pointer;font-size:.9rem}
+.tab.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+input[type=search],input[type=text]{background:var(--card);border:1px solid var(--brd);
+  color:var(--txt);padding:8px 12px;border-radius:8px;font-size:.9rem;flex:1;min-width:160px}
+button.b{background:var(--card2);border:1px solid var(--brd);color:var(--txt);
+  padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.9rem}
+button.b:hover{border-color:var(--acc)}
+button.p{background:var(--acc);border-color:var(--acc);color:#fff}
+main{max-width:860px;margin:0 auto;padding:18px 16px 80px}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:12px;
+  padding:16px 18px;margin-bottom:12px}
+.num{display:inline-block;background:var(--acc);color:#fff;font-size:.75rem;
+  font-weight:700;padding:2px 9px;border-radius:999px;margin-bottom:8px}
+.q{font-weight:600;margin:0 0 10px}
+.a{color:#c9f7d8;background:#14281d;border-left:3px solid var(--acc2);
+  padding:10px 12px;border-radius:0 8px 8px 0;margin:0}
+.hide{display:none}
+.solo{min-height:46vh;display:flex;flex-direction:column;justify-content:center}
+.solo .q{font-size:1.3rem;text-align:center}
+.solo .a{font-size:1.05rem}
+.nav{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:16px;flex-wrap:wrap}
+.prog{height:6px;background:var(--card2);border-radius:999px;overflow:hidden;margin-top:12px}
+.prog i{display:block;height:100%;background:var(--acc);width:0;transition:.25s}
+.meta{text-align:center;color:var(--muted);font-size:.85rem;margin-top:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{background:var(--card2);border:1px solid var(--brd);color:var(--muted);
+  padding:4px 10px;border-radius:999px;font-size:.8rem;cursor:pointer}
+.chip.on{background:var(--acc2);border-color:var(--acc2);color:#04140a;font-weight:700}
+.empty{color:var(--muted);text-align:center;padding:40px 0}
+kbd{background:var(--card2);border:1px solid var(--brd);border-radius:4px;
+  padding:1px 6px;font-size:.75rem;color:var(--muted)}
+@media(max-width:520px){.solo .q{font-size:1.1rem}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>116 Preguntas para el Examen <span>· Primera Comunión y Confirmación</span></h1>
+  <div class="tabs">
+    <button class="tab on" data-m="all">Todas</button>
+    <button class="tab" data-m="one">Una por una</button>
+    <button class="tab" data-m="focus">Enfocada</button>
+  </div>
+  <div class="bar" id="barAll">
+    <input type="search" id="search" placeholder="Buscar en preguntas y respuestas…">
+    <button class="b" id="toggleAll">Ocultar respuestas</button>
+  </div>
+  <div class="bar hide" id="barOne">
+    <button class="b" id="shuffle">Aleatorio</button>
+    <button class="b" id="reset">Orden 1→116</button>
+    <input type="text" id="jump" placeholder="Ir al N.º" style="max-width:110px;flex:0">
+  </div>
+  <div class="bar hide" id="barFocus">
+    <input type="text" id="focusList" value="2,20,32,35,46,55,74,87,92,94,107">
+    <button class="b p" id="applyFocus">Aplicar</button>
+    <button class="b" id="focusDefault">Set por defecto</button>
+  </div>
+  <div class="chips hide" id="chips"></div>
+</div></header>
+
+<main>
+  <div id="viewAll"></div>
+  <div id="viewOne" class="hide">
+    <div class="card solo">
+      <span class="num" id="oNum">1</span>
+      <p class="q" id="oQ"></p>
+      <p class="a hide" id="oA"></p>
+    </div>
+    <div class="nav">
+      <button class="b" id="prev">← Anterior</button>
+      <button class="b p" id="show">Mostrar respuesta</button>
+      <button class="b" id="next">Siguiente →</button>
+    </div>
+    <div class="prog"><i id="progBar"></i></div>
+    <div class="meta" id="meta"></div>
+    <div class="meta">Atajos: <kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>espacio</kbd> respuesta</div>
+  </div>
+</main>
+
+<script>
+const DATA=[
+{n:1,q:"¿QUIÉN NOS HA CREADO?",a:"NOS HA CREADO DIOS."},
+{n:2,q:"¿PARA QUÉ NOS HA CREADO DIOS?",a:"DIOS NOS HA CREADO PARA CONOCERLO, AMARLO Y SERVIRLO EN ESTA VIDA Y DESPUÉS VERLO Y GOZARLO ETERNAMENTE EN LA OTRA."},
+{n:3,q:"¿QUÉ ES LA DOCTRINA CRISTIANA?",a:"LA DOCTRINA CRISTIANA ES LA QUE PREDICÓ JESUCRISTO Y NOS ENSEÑA LA IGLESIA."},
+{n:4,q:"¿QUÉ COMPRENDE LA DOCTRINA CRISTIANA?",a:"LA DOCTRINA CRISTIANA COMPRENDE LAS VERDADES QUE DEBEMOS CREER, LOS DEBERES QUE HEMOS DE PRACTICAR Y LOS MEDIOS QUE HEMOS DE EMPLEAR PARA SANTIFICARNOS."},
+{n:5,q:"¿QUIÉN ES CRISTIANO?",a:"CRISTIANO ES EL QUE ESTANDO BAUTIZADO CREE Y PROFESA LA DOCTRINA CRISTIANA."},
+{n:6,q:"¿SOIS CRISTIANO?",a:"SÍ, SOY CRISTIANO POR LA GRACIA DE DIOS."},
+{n:7,q:"¿CUÁL ES LA SEÑAL DEL CRISTIANO?",a:"LA SEÑAL DEL CRISTIANO ES LA SANTA CRUZ."},
+{n:8,q:"¿EN DÓNDE SE HALLAN LAS VERDADES QUE DEBEMOS CREER?",a:"LAS VERDADES QUE DEBEMOS CREER SE HALLAN EN EL CREDO O SÍMBOLO DE LOS APÓSTOLES."},
+{n:9,q:"¿POR QUÉ SE LLAMA AL CREDO “SÍMBOLO DE LOS APÓSTOLES”?",a:"PORQUE FUE COMPUESTO Y ENSEÑADO POR LOS APÓSTOLES."},
+{n:10,q:"¿QUIÉN ES DIOS?",a:"DIOS ES UN SER ESPIRITUAL, INFINITAMENTE PERFECTO, ETERNO, CREADOR, DUEÑO Y SEÑOR DE TODAS LAS COSAS."},
+{n:11,q:"¿DÓNDE ESTÁ DIOS?",a:"DIOS ESTÁ EN EL CIELO, EN LA TIERRA Y EN TODO LUGAR."},
+{n:12,q:"¿POR QUÉ CREEMOS QUE HAY UN DIOS?",a:"CREEMOS QUE HAY UN DIOS PORQUE LA RAZÓN NOS LO DICE Y PORQUE ÉL MISMO NOS LO HA REVELADO."},
+{n:13,q:"¿POR QUÉ DECIMOS QUE DIOS ES UN SER ESPIRITUAL?",a:"DECIMOS QUE DIOS ES UN SER ESPIRITUAL PORQUE NO TIENE CUERPO."},
+{n:14,q:"¿QUÉ QUIERE DECIR QUE DIOS ES INFINITAMENTE PERFECTO?",a:"AL DECIR QUE DIOS ES INFINITAMENTE PERFECTO ENTENDEMOS QUE POSEE TODAS LAS PERFECCIONES SIN LÍMITE ALGUNO."},
+{n:15,q:"¿POR QUÉ SE DICE QUE DIOS ES ETERNO?",a:"SE DICE QUE DIOS ES ETERNO PORQUE NO HA TENIDO PRINCIPIO NI TENDRÁ FIN."},
+{n:16,q:"¿POR QUÉ DECIMOS QUE DIOS ES TODOPODEROSO?",a:"DECIMOS QUE DIOS ES TODOPODEROSO PORQUE HACE TODO CUANTO QUIERE, COMO QUIERE Y CUANDO QUIERE."},
+{n:17,q:"¿QUÉ QUIERE DECIR “CREADOR DEL CIELO Y DE LA TIERRA”?",a:"“CREADOR DEL CIELO Y DE LA TIERRA” QUIERE DECIR QUE DIOS HIZO DE LA NADA EL CIELO, LA TIERRA Y TODO LO QUE EN ELLOS EXISTE."},
+{n:18,q:"¿QUÉ ES UN MISTERIO?",a:"UN MISTERIO ES UNA VERDAD REVELADA POR DIOS Y QUE DEBEMOS CREER AUNQUE NO LA PODAMOS COMPRENDER."},
+{n:19,q:"¿CUÁLES SON LOS PRINCIPALES MISTERIOS DE NUESTRA FE?",a:"LOS PRINCIPALES MISTERIOS DE NUESTRA FE SON: LA SANTÍSIMA TRINIDAD, LA ENCARNACIÓN Y LA REDENCIÓN."},
+{n:20,q:"¿QUÉ ES EL MISTERIO DE LA SANTÍSIMA TRINIDAD?",a:"EL MISTERIO DE LA SANTÍSIMA TRINIDAD ES EL MISTERIO DE UN SOLO DIOS EN TRES PERSONAS."},
+{n:21,q:"¿CUÁLES SON LAS TRES PERSONAS DE LA SANTÍSIMA TRINIDAD?",a:"LAS TRES PERSONAS DE LA SANTÍSIMA TRINIDAD SON EL PADRE, EL HIJO Y EL ESPÍRITU SANTO."},
+{n:22,q:"¿QUÉ SON LOS ÁNGELES?",a:"LOS ÁNGELES SON ESPÍRITUS PUROS, CREADOS POR DIOS PARA SU GLORIA Y SU SERVICIO."},
+{n:23,q:"¿QUÉ SON LOS DEMONIOS?",a:"LOS DEMONIOS SON ÁNGELES MALOS QUE SE REBELARON CONTRA DIOS."},
+{n:24,q:"¿QUÉ ES EL HOMBRE?",a:"EL HOMBRE ES UNA CRIATURA RACIONAL COMPUESTA DE CUERPO Y ALMA."},
+{n:25,q:"¿QUÉ ES EL ALMA HUMANA?",a:"EL ALMA HUMANA ES UN ESPÍRITU INMORTAL, CREADO A IMAGEN Y SEMEJANZA DE DIOS, PARA SER UNIDA A UN CUERPO."},
+{n:26,q:"¿QUIÉNES FUERON EL PRIMER HOMBRE Y LA PRIMERA MUJER?",a:"EL PRIMER HOMBRE Y LA PRIMERA MUJER FUERON ADÁN Y EVA, NUESTROS PRIMEROS PADRES."},
+{n:27,q:"¿DÓNDE VIVIERON ADÁN Y EVA?",a:"ADÁN Y EVA VIVIERON EN EL PARAÍSO TERRENAL, HASTA QUE FUERON ARROJADOS DE ALLÍ EN CASTIGO DE SU PECADO."},
+{n:28,q:"¿QUÉ PECADO COMETIERON NUESTROS PRIMEROS PADRES?",a:"NUESTROS PRIMEROS PADRES COMETIERON UN GRAVE PECADO DE SOBERBIA Y DE DESOBEDIENCIA, COMIENDO DE LA FRUTA QUE DIOS LES HABÍA PROHIBIDO COMER."},
+{n:29,q:"¿CÓMO SE LLAMA EL PECADO DE NUESTROS PRIMEROS PADRES?",a:"EL PECADO DE NUESTROS PRIMEROS PADRES SE LLAMA ORIGINAL, PORQUE TODOS LO HEREDAMOS DE ELLOS COMO DE NUESTRO PRIMER ORIGEN."},
+{n:30,q:"¿QUÉ ES EL MISTERIO DE LA ENCARNACIÓN?",a:"EL MISTERIO DE LA ENCARNACIÓN ES EL MISTERIO DEL HIJO DE DIOS HECHO HOMBRE."},
+{n:31,q:"¿CÓMO SE HIZO HOMBRE EL HIJO DE DIOS?",a:"EL HIJO DE DIOS SE HIZO HOMBRE TOMANDO UN CUERPO Y UN ALMA SEMEJANTES A LOS NUESTROS, EN EL SENO DE LA SANTÍSIMA VIRGEN, POR OBRA DEL ESPÍRITU SANTO."},
+{n:32,q:"¿PARA QUÉ SE HIZO HOMBRE EL HIJO DE DIOS?",a:"EL HIJO DE DIOS SE HIZO HOMBRE PARA LIBERARNOS DEL PECADO Y DEL INFIERNO, Y DEVOLVERNOS LA GRACIA O AMISTAD DE DIOS QUE HABÍAMOS PERDIDO POR EL PECADO."},
+{n:33,q:"¿CÓMO SE LLAMA EL HIJO DE DIOS HECHO HOMBRE?",a:"EL HIJO DE DIOS HECHO HOMBRE SE LLAMA JESUCRISTO."},
+{n:34,q:"¿CÓMO SABEMOS QUE JESUCRISTO ES DIOS?",a:"SABEMOS QUE JESUCRISTO ES DIOS PORQUE ÉL MISMO LO DECLARÓ Y LO DEMOSTRÓ."},
+{n:35,q:"¿CÓMO DEMOSTRÓ JESUCRISTO QUE ES DIOS?",a:"JESUCRISTO DEMOSTRÓ QUE ES DIOS POR LA DOCTRINA QUE ENSEÑÓ, LAS PROFECÍAS QUE EN ÉL SE CUMPLIERON Y LOS MILAGROS QUE REALIZÓ."},
+{n:36,q:"¿QUÉ DÍA NACIÓ JESUCRISTO?",a:"JESUCRISTO NACIÓ A MEDIA NOCHE DEL 25 DE DICIEMBRE, LLAMADO DÍA DE NAVIDAD O NOCHEBUENA."},
+{n:37,q:"¿DÓNDE NACIÓ JESUCRISTO?",a:"JESUCRISTO NACIÓ EN UN POBRE ESTABLO DE BELÉN, EN JUDEA."},
+{n:38,q:"¿QUÉ SIGNIFICA EL NOMBRE DE JESUCRISTO?",a:"JESÚS QUIERE DECIR SALVADOR Y CRISTO QUIERE DECIR UNGIDO O CONSAGRADO."},
+{n:39,q:"¿CUÁLES SON LOS PRINCIPALES ACONTECIMIENTOS DE LA VIDA OCULTA DEL SALVADOR?",a:"LOS PRINCIPALES ACONTECIMIENTOS DE LA VIDA OCULTA DEL SALVADOR SON: LA CIRCUNCISIÓN, LA ADORACIÓN DE LOS MAGOS, LA PRESENTACIÓN EN EL TEMPLO, LA HUIDA A EGIPTO Y SU IDA AL TEMPLO A LA EDAD DE DOCE AÑOS."},
+{n:40,q:"¿QUIÉN ES LA SANTÍSIMA VIRGEN MARÍA?",a:"LA SANTÍSIMA VIRGEN MARÍA ES LA MADRE DE DIOS Y LA MÁS PURA Y SANTA DE TODAS LAS CRIATURAS."},
+{n:41,q:"¿QUIÉN FUE SAN JOSÉ?",a:"SAN JOSÉ FUE ESPOSO DE MARÍA SANTÍSIMA, PADRE ADOPTIVO DE JESUCRISTO Y JEFE DE LA SAGRADA FAMILIA."},
+{n:42,q:"¿QUÉ HIZO JESUCRISTO A LA EDAD DE TREINTA AÑOS?",a:"A LA EDAD DE TREINTA AÑOS, JESUCRISTO EMPEZÓ SU VIDA PÚBLICA, DESPUÉS DE RECIBIR EL BAUTISMO DE SAN JUAN Y DE AYUNAR CUARENTA DÍAS EN EL DESIERTO."},
+{n:43,q:"¿QUÉ HIZO JESUCRISTO DURANTE LOS TRES AÑOS DE SU VIDA PÚBLICA?",a:"JESUCRISTO EMPLEÓ LOS AÑOS DE SU VIDA PÚBLICA EN ANUNCIAR QUE ÉL ERA EL SALVADOR PROMETIDO AL MUNDO Y ENSEÑARNOS LO QUE DEBEMOS HACER Y EVITAR PARA IR AL CIELO."},
+{n:44,q:"¿QUÉ GRAN BENEFICIO NOS HIZO JESUCRISTO LA VÍSPERA DE SU MUERTE?",a:"LA VÍSPERA DE SU MUERTE, DÍA DE JUEVES SANTO, JESUCRISTO INSTITUYÓ LA SAGRADA EUCARISTÍA QUE SE LLAMA TAMBIÉN EL SANTÍSIMO SACRAMENTO."},
+{n:45,q:"¿PARA QUÉ INSTITUYÓ JESUCRISTO LA SAGRADA EUCARISTÍA?",a:"JESUCRISTO INSTITUYÓ LA SAGRADA EUCARISTÍA PRINCIPALMENTE PARA SER ALIMENTO DE NUESTRAS ALMAS EN LA COMUNIÓN."},
+{n:46,q:"¿CUÁL ES EL MISTERIO DE LA REDENCIÓN?",a:"EL MISTERIO DE LA REDENCIÓN ES EL MISTERIO DE LA PASIÓN Y MUERTE DE NUESTRO SEÑOR JESUCRISTO."},
+{n:47,q:"¿CUÁNDO MURIÓ JESUCRISTO?",a:"JESUCRISTO MURIÓ EL DÍA DE VIERNES SANTO, A LAS TRES DE LA TARDE."},
+{n:48,q:"¿QUÉ SUCEDIÓ CON EL CUERPO DE JESUCRISTO DESPUÉS DE MUERTO?",a:"EL CUERPO DE JESUCRISTO FUE BAJADO DE LA CRUZ Y PUESTO EN UN SEPULCRO."},
+{n:49,q:"¿QUÉ SIGNIFICAN ESTAS PALABRAS “AL TERCER DÍA RESUCITÓ DE ENTRE LOS MUERTOS”?",a:"ESTAS PALABRAS SIGNIFICAN QUE JESUCRISTO, POR SU PROPIO PODER, VOLVIÓ A JUNTAR SU ALMA CON SU CUERPO PARA NUNCA MÁS MORIR."},
+{n:50,q:"¿QUÉ HIZO JESUCRISTO EN LA TIERRA DESPUÉS DE RESUCITADO?",a:"DESPUÉS DE RESUCITADO, JESUCRISTO PERMANECIÓ CUARENTA DÍAS EN LA TIERRA CONFIRMANDO A LOS APÓSTOLES EN SU DOCTRINA Y EN LA VERDAD DE SU RESURRECCIÓN."},
+{n:51,q:"¿QUÉ NOS ENSEÑAN LAS PALABRAS “SUBIÓ A LOS CIELOS”?",a:"ESTAS PALABRAS NOS ENSEÑAN QUE JESUCRISTO SUBIÓ AL CIELO EN CUERPO Y ALMA, POR SU PROPIO PODER, EN PRESENCIA DE SUS DISCÍPULOS."},
+{n:52,q:"¿QUÉ SIGNIFICAN ESTAS PALABRAS “ESTÁ SENTADO A LA DIESTRA DE DIOS PADRE TODOPODEROSO”?",a:"ESTAS PALABRAS SIGNIFICAN QUE JESUCRISTO TIENE LA MISMA GLORIA Y EL MISMO PODER QUE EL PADRE."},
+{n:53,q:"¿QUÉ ENTENDEMOS POR LAS PALABRAS “HA DE VENIR A JUZGAR A LOS VIVOS Y A LOS MUERTOS”?",a:"POR ESTAS PALABRAS ENTENDEMOS QUE, AL FIN DEL MUNDO, JESUCRISTO VOLVERÁ A LA TIERRA VISIBLEMENTE, PARA JUZGAR A TODOS LOS HOMBRES Y DARLES EL PREMIO O EL CASTIGO QUE HAYAN MERECIDO."},
+{n:54,q:"¿QUIÉN ES EL ESPÍRITU SANTO?",a:"EL ESPÍRITU SANTO ES LA TERCERA PERSONA DE LA SANTÍSIMA TRINIDAD, DIOS COMO EL PADRE Y EL HIJO."},
+{n:55,q:"¿CÓMO VIENE A NUESTRAS ALMAS EL ESPÍRITU SANTO?",a:"EL ESPÍRITU SANTO VIENE A NUESTRAS ALMAS POR EL BAUTISMO Y PARTICULARMENTE POR LA CONFIRMACIÓN."},
+{n:56,q:"¿QUÉ ES LA IGLESIA?",a:"LA IGLESIA ES LA SOCIEDAD DE LOS FIELES CRISTIANOS QUE OBEDECEN A LA AUTORIDAD DEL PAPA Y DE LOS OBISPOS."},
+{n:57,q:"¿QUIÉN ES EL PAPA?",a:"EL PAPA ES EL VICARIO O REPRESENTANTE DE JESUCRISTO EN LA TIERRA, SUCESOR DE SAN PEDRO Y JEFE VISIBLE DE LA IGLESIA."},
+{n:58,q:"¿CUÁNTAS IGLESIAS VERDADERAS HAY?",a:"NO HAY MÁS QUE UNA SOLA IGLESIA VERDADERA, QUE ES LA ESTABLECIDA POR JESUCRISTO."},
+{n:59,q:"¿CÓMO SE RECONOCE LA VERDADERA IGLESIA DE JESUCRISTO?",a:"LA VERDADERA IGLESIA DE JESUCRISTO SE RECONOCE EN QUE ES UNA, SANTA, CATÓLICA Y APOSTÓLICA."},
+{n:60,q:"¿QUÉ QUIERE DECIR “COMUNIÓN DE LOS SANTOS”?",a:"“COMUNIÓN DE LOS SANTOS” QUIERE DECIR COMUNICACIÓN DE LOS BIENES ESPIRITUALES DE LA IGLESIA ENTRE TODOS SUS HIJOS, LLAMADOS FIELES O SANTOS."},
+{n:61,q:"¿QUÉ EXPRESAMOS CON LAS PALABRAS “CREO EN EL PERDÓN DE LOS PECADOS”?",a:"CON ESTAS PALABRAS AFIRMAMOS QUE LA IGLESIA TIENE PODER DE PERDONAR LOS PECADOS."},
+{n:62,q:"¿CÓMO SE PERDONAN LOS PECADOS?",a:"LOS PECADOS SE PERDONAN, ORDINARIAMENTE, POR LOS SACRAMENTOS DEL BAUTISMO Y DE LA PENITENCIA."},
+{n:63,q:"¿CUÁLES SON LAS POSTRIMERÍAS DEL HOMBRE?",a:"LAS POSTRIMERÍAS DEL HOMBRE SON CUATRO: MUERTE, JUICIO, INFIERNO Y GLORIA."},
+{n:64,q:"¿QUÉ SERÁ DE NUESTRA ALMA DESPUÉS DE LA MUERTE?",a:"DESPUÉS DE LA MUERTE, NUESTRA ALMA COMPARECERÁ DELANTE DE DIOS PARA SER JUZGADA SOBRE SUS BUENAS Y MALAS OBRAS."},
+{n:65,q:"¿QUÉ ES EL CIELO?",a:"EL CIELO ES UN LUGAR DE DELICIAS DONDE LOS SANTOS GOZAN CON DIOS DE FELICIDAD PERFECTA Y PERDURABLE."},
+{n:66,q:"¿QUÉ ES EL INFIERNO?",a:"EL INFIERNO ES UN LUGAR DE TORMENTOS, EN DONDE LOS CONDENADOS ESTÁN SEPARADOS DE DIOS PARA SIEMPRE Y SUFREN PENAS HORRIBLES."},
+{n:67,q:"¿QUÉ ES EL PURGATORIO?",a:"EL PURGATORIO ES UN LUGAR DE PENAS, DONDE LAS ALMAS DE LOS JUSTOS ACABAN DE PURIFICARSE DE SUS PECADOS ANTES DE IR AL CIELO."},
+{n:68,q:"¿QUÉ QUIERE DECIR “LA RESURRECCIÓN DE LA CARNE”?",a:"QUIERE DECIR QUE AL FIN DEL MUNDO TODOS LOS HOMBRES RESUCITARÁN CON LOS MISMOS CUERPOS Y ALMAS QUE TUVIERON EN ESTA VIDA."},
+{n:69,q:"¿QUÉ NOS ENSEÑAN LAS PALABRAS “LA VIDA ETERNA”?",a:"ESTAS PALABRAS NOS ENSEÑAN QUE, DESPUÉS DEL JUICIO UNIVERSAL, HABRÁ OTRA VIDA QUE NUNCA SE ACABARÁ, FELIZ PARA LOS BUENOS Y DESGRACIADA PARA LOS MALOS."},
+{n:70,q:"¿BASTA PARA SALVARNOS ESTAR BAUTIZADOS Y CREER LAS VERDADES DE LA FE?",a:"NO, PARA SALVARNOS DEBEMOS ADEMÁS CUMPLIR LOS MANDAMIENTOS DE LA LEY DE DIOS Y LOS DE LA IGLESIA."},
+{n:71,q:"¿QUIÉN DIO LOS MANDAMIENTOS DE LA LEY DE DIOS?",a:"EL MISMO DIOS LOS DIO A MOISÉS EN EL MONTE SINAÍ Y JESUCRISTO LOS CONFIRMÓ EN SU EVANGELIO. (APRENDER DE MEMORIA LOS 10 MANDAMIENTOS)"},
+{n:72,q:"¿A QUÉ SE REDUCEN LOS MANDAMIENTOS DE LA LEY DE DIOS?",a:"LOS MANDAMIENTOS DE LA LEY DE DIOS SE REDUCEN AL AMOR DE DIOS Y AL DEL PRÓJIMO."},
+{n:73,q:"¿CUÁLES SON LOS PRINCIPALES MANDAMIENTOS DE LA IGLESIA?",a:"LOS PRINCIPALES MANDAMIENTOS DE LA IGLESIA SON CINCO. (APRENDER DE MEMORIA LOS 5 MANDAMIENTOS)"},
+{n:74,q:"¿QUÉ ES LA SANTA MISA?",a:"LA SANTA MISA ES EL SACRIFICIO DEL CUERPO Y SANGRE DE JESUCRISTO QUE SE OFRECE A DIOS EN EL ALTAR, BAJO LAS ESPECIES DE PAN Y VINO."},
+{n:75,q:"¿QUÉ ES CONFESARSE?",a:"CONFESARSE ES DECLARAR LOS PECADOS AL SACERDOTE PARA QUE LOS PERDONE EN NOMBRE DE DIOS."},
+{n:76,q:"¿QUÉ ES COMULGAR?",a:"COMULGAR ES RECIBIR A JESUCRISTO EN EL SACRAMENTO DE LA EUCARISTÍA."},
+{n:77,q:"¿QUÉ ES UNA VIRTUD?",a:"VIRTUD ES UNA DISPOSICIÓN HABITUAL DEL ALMA, QUE NOS MUEVE A OBRAR EL BIEN Y EVITAR EL MAL."},
+{n:78,q:"¿CUÁLES SON LAS VIRTUDES TEOLOGALES?",a:"LAS VIRTUDES TEOLOGALES SON: FE, ESPERANZA Y CARIDAD."},
+{n:79,q:"¿QUÉ ES PECADO?",a:"PECADO ES TODA DESOBEDIENCIA VOLUNTARIA A LA LEY DE DIOS O DE LA IGLESIA."},
+{n:80,q:"¿QUÉ PECADO SE LLAMA MORTAL?",a:"SE LLAMA PECADO MORTAL EL QUE SE COMETE EN COSA GRAVE, CON PLENA ADVERTENCIA Y PLENO CONSENTIMIENTO."},
+{n:81,q:"¿QUÉ ES PECADO VENIAL?",a:"PECADO VENIAL ES EL QUE SE COMETE EN COSA LEVE; O EN COSA GRAVE PERO SIN DARSE PLENAMENTE CUENTA DE ELLO."},
+{n:82,q:"¿DE CUÁNTAS MANERAS SE PUEDE COMETER EL PECADO?",a:"EL PECADO, YA SEA MORTAL O VENIAL, SE PUEDE COMETER DE CINCO MANERAS: DE PENSAMIENTO, DESEO, PALABRA, OBRA Y OMISIÓN."},
+{n:83,q:"¿CUÁLES SON LOS PECADOS CAPITALES?",a:"LOS PECADOS CAPITALES SON SIETE: SOBERBIA, AVARICIA, LUJURIA, IRA, GULA, ENVIDIA Y PEREZA."},
+{n:84,q:"¿QUÉ ES LA GRACIA?",a:"GRACIA ES UN DON SOBRENATURAL QUE DIOS NOS CONCEDE GRATUITAMENTE, POR LOS MÉRITOS DE JESUCRISTO, PARA AYUDARNOS A CONSEGUIR LA VIDA ETERNA."},
+{n:85,q:"¿CÓMO SE OBTIENE LA GRACIA DE DIOS?",a:"LA GRACIA DE DIOS SE OBTIENE PRINCIPALMENTE POR MEDIO DE LOS SACRAMENTOS Y DE LA ORACIÓN."},
+{n:86,q:"¿QUÉ SON LOS SACRAMENTOS?",a:"LOS SACRAMENTOS SON SIGNOS SENSIBLES INSTITUIDOS POR JESUCRISTO PARA PRODUCIR LA GRACIA EN NOSOTROS Y SANTIFICARNOS."},
+{n:87,q:"¿CUÁNTOS SON LOS SACRAMENTOS?",a:"LOS SACRAMENTOS SON SIETE: BAUTISMO, CONFIRMACIÓN, EUCARISTÍA, PENITENCIA, EXTREMAUNCIÓN, ORDEN SACERDOTAL Y MATRIMONIO."},
+{n:88,q:"¿QUÉ SACRAMENTOS SE LLAMAN DE “VIVOS”?",a:"SE LLAMAN SACRAMENTOS DE “VIVOS”: LA CONFIRMACIÓN, LA EUCARISTÍA, LA EXTREMAUNCIÓN, EL ORDEN SACERDOTAL Y EL MATRIMONIO, PORQUE DEBEN RECIBIRSE EN ESTADO DE GRACIA, QUE ES LA VIDA SOBRENATURAL DEL ALMA."},
+{n:89,q:"¿QUÉ SACRAMENTOS SE LLAMAN DE “MUERTOS”?",a:"SE LLAMAN SACRAMENTOS DE “MUERTOS” EL BAUTISMO Y LA PENITENCIA, PORQUE HAN SIDO INSTITUIDOS PARA SACAR A NUESTRA ALMA DE LA MUERTE DEL PECADO."},
+{n:90,q:"¿CUÁLES SON LOS SACRAMENTOS QUE PUEDEN RECIBIRSE UNA SOLA VEZ?",a:"LOS SACRAMENTOS QUE PUEDEN RECIBIRSE UNA SOLA VEZ SON: EL BAUTISMO, LA CONFIRMACIÓN Y EL ORDEN SACERDOTAL, PORQUE IMPRIMEN EN EL ALMA UN CARÁCTER QUE DURA PARA SIEMPRE."},
+{n:91,q:"¿CUÁL ES EL MÁS NECESARIO DE TODOS LOS SACRAMENTOS?",a:"EL MÁS NECESARIO DE TODOS LOS SACRAMENTOS ES EL BAUTISMO, PORQUE SIN ÉL NADIE PUEDE SALVARSE NI RECIBIR LOS DEMÁS SACRAMENTOS."},
+{n:92,q:"¿QUÉ ES LA CONFIRMACIÓN?",a:"LA CONFIRMACIÓN ES UN SACRAMENTO POR EL CUAL RECIBIMOS AL ESPÍRITU SANTO CON LA ABUNDANCIA DE SUS DONES."},
+{n:93,q:"¿CUÁLES SON LOS DONES DEL ESPÍRITU SANTO?",a:"LOS DONES DEL ESPÍRITU SANTO SON SIETE: SABIDURÍA, ENTENDIMIENTO, CONSEJO, FORTALEZA, CIENCIA, PIEDAD Y TEMOR DE DIOS."},
+{n:94,q:"¿QUÉ ES LA EUCARISTÍA?",a:"LA EUCARISTÍA ES UN SACRAMENTO QUE CONTIENE REAL Y VERDADERAMENTE EL CUERPO, SANGRE, ALMA Y DIVINIDAD DE JESUCRISTO BAJO LAS ESPECIES DE PAN Y VINO."},
+{n:95,q:"¿EN QUÉ MOMENTO SE CAMBIAN EL PAN Y VINO EN CUERPO Y SANGRE DE JESUCRISTO?",a:"EL PAN Y VINO SE CAMBIAN EN CUERPO Y SANGRE DE JESUCRISTO DURANTE LA MISA, EN EL MOMENTO DE LA CONSAGRACIÓN."},
+{n:96,q:"¿QUÉ ES LA HOSTIA ANTES DE LA CONSAGRACIÓN?",a:"ANTES DE LA CONSAGRACIÓN LA HOSTIA ES UN POCO DE PAN DE TRIGO."},
+{n:97,q:"¿QUÉ HAY EN EL CÁLIZ ANTES DE LA CONSAGRACIÓN?",a:"ANTES DE LA CONSAGRACIÓN EN EL CÁLIZ HAY UN POCO DE VINO DE UVA."},
+{n:98,q:"¿QUÉ HAY EN LA HOSTIA Y EN EL CÁLIZ DESPUÉS DE LA CONSAGRACIÓN?",a:"DESPUÉS DE LA CONSAGRACIÓN, TANTO EN LA HOSTIA COMO EN EL CÁLIZ, ESTÁ TODO ENTERO JESUCRISTO, DIOS Y HOMBRE VERDADERO; Y DEL PAN Y VINO SÓLO QUEDAN LAS APARIENCIAS."},
+{n:99,q:"¿QUÉ ES LA COMUNIÓN?",a:"LA COMUNIÓN ES EL ACTO DE RECIBIR A JESUCRISTO EN LA EUCARISTÍA, PARA NUESTRO ALIMENTO ESPIRITUAL."},
+{n:100,q:"¿QUÉ SE REQUIERE PARA COMULGAR DIGNAMENTE?",a:"PARA COMULGAR DIGNAMENTE SE REQUIERE HALLARSE EN ESTADO DE GRACIA, SABER LO QUE SE VA A RECIBIR Y NO HABER COMIDO COSA ALGUNA DESDE TRES HORAS ANTES. (PÍO XII)"},
+{n:101,q:"¿QUÉ SUCEDE AL QUE COMULGA EN PECADO MORTAL?",a:"EL QUE COMULGA EN PECADO MORTAL COMETE UN GRAVE PECADO DE SACRILEGIO."},
+{n:102,q:"¿QUÉ CONVIENE HACER ANTES DE LA COMUNIÓN?",a:"ANTES DE LA COMUNIÓN CONVIENE PREPARARSE CON LA DEVOTA ASISTENCIA A MISA O CON ACTOS DE FE, ESPERANZA, AMOR, HUMILDAD Y DESEO."},
+{n:103,q:"¿QUÉ CONVIENE HACER DESPUÉS DE COMULGAR?",a:"DESPUÉS DE COMULGAR CONVIENE CONVERSAR INTERIORMENTE CON JESUCRISTO Y HACER ACTOS DE ADORACIÓN, AGRADECIMIENTO, AMOR, OFRECIMIENTO Y PETICIÓN."},
+{n:104,q:"¿QUÉ BENEFICIOS PRODUCE LA COMUNIÓN BIEN HECHA?",a:"LA COMUNIÓN BIEN HECHA AUMENTA LA GRACIA SANTIFICANTE, BORRA LAS CULPAS VENIALES, PRESERVA DE LAS MORTALES Y ES PRENDA DE VIDA ETERNA."},
+{n:105,q:"¿ES IMPORTANTE LA PRIMERA COMUNIÓN?",a:"SÍ, LA PRIMERA COMUNIÓN ES MUY IMPORTANTE PORQUE EJERCE GRAN INFLUENCIA PARA TODA LA VIDA."},
+{n:106,q:"¿QUÉ ES LA PENITENCIA?",a:"LA PENITENCIA ES EL SACRAMENTO INSTITUIDO PARA PERDONAR LOS PECADOS COMETIDOS DESPUÉS DEL BAUTISMO."},
+{n:107,q:"¿QUÉ SE NECESITA PARA CONFESARSE BIEN?",a:"PARA CONFESARSE BIEN SE NECESITAN CINCO COSAS: EXAMEN DE CONCIENCIA; DOLOR DE CORAZÓN; FIRME PROPÓSITO DE ENMIENDA; CONFESIÓN DE LOS PECADOS Y SATISFACCIÓN A DIOS Y AL PRÓJIMO."},
+{n:108,q:"¿CÓMO SE HACE EL EXAMEN DE CONCIENCIA?",a:"EL EXAMEN DE CONCIENCIA SE HACE RECORDANDO LOS PECADOS COMETIDOS CONTRA CADA UNO DE LOS MANDAMIENTOS DE LA LEY DE DIOS Y DE LA IGLESIA Y LAS OBLIGACIONES DEL PROPIO ESTADO."},
+{n:109,q:"¿QUÉ ES CONTRICIÓN?",a:"CONTRICIÓN ES UN DOLOR O UN SENTIMIENTO DE HABER OFENDIDO A DIOS POR SER INFINITAMENTE BUENO Y AMABLE Y PORQUE EL PECADO LE DISGUSTA."},
+{n:110,q:"¿ESTAMOS OBLIGADOS A CONFESAR TODOS LOS PECADOS?",a:"PARA QUE LA CONFESIÓN SEA BUENA, ESTAMOS OBLIGADOS A CONFESAR TODOS LOS PECADOS MORTALES QUE RECORDAMOS HABER COMETIDO."},
+{n:111,q:"¿QUÉ DEBE HACER EL QUE SE CONFIESA?",a:"EL QUE SE CONFIESA DEBE: 1º ARRODILLARSE ANTE EL CONFESOR Y HACER LA SEÑAL DE LA CRUZ; 2º DECIR CUÁNTO TIEMPO HACE QUE NO SE HA CONFESADO Y SI CUMPLIÓ O NO LA PENITENCIA; 3º ACUSARSE CON SENCILLEZ Y CLARIDAD DE LOS PECADOS QUE HA RECORDADO EN EL EXAMEN, SIN OMITIR NINGUNO DE LOS MORTALES; 4º ESCUCHAR CON ATENCIÓN LOS CONSEJOS QUE LE DÉ EL CONFESOR Y LA PENITENCIA QUE LE IMPONGA; 5º REZAR EL “ACTO DE CONTRICIÓN” MIENTRAS EL SACERDOTE LE DA LA ABSOLUCIÓN."},
+{n:112,q:"¿QUÉ ES LA ABSOLUCIÓN?",a:"LA ABSOLUCIÓN ES EL PERDÓN DE LOS PECADOS QUE CONCEDE EL SACERDOTE EN NOMBRE DE JESUCRISTO, AL PENITENTE BIEN DISPUESTO."},
+{n:113,q:"¿QUÉ DEBE HACER DESPUÉS DE RECIBIR LA ABSOLUCIÓN?",a:"DESPUÉS DE RECIBIR LA ABSOLUCIÓN SE DEBE DAR GRACIAS A DIOS, RENOVAR EL PROPÓSITO DE NO PECAR MÁS Y CUMPLIR CUANTO ANTES LA PENITENCIA SACRAMENTAL."},
+{n:114,q:"¿QUÉ ES LA EXTREMAUNCIÓN?",a:"LA EXTREMAUNCIÓN ES UN SACRAMENTO INSTITUIDO PARA EL ALIVIO ESPIRITUAL Y AÚN TEMPORAL DE LOS ENFERMOS."},
+{n:115,q:"¿QUÉ ES EL ORDEN SACERDOTAL?",a:"EL ORDEN SACERDOTAL ES UN SACRAMENTO QUE DA PODER Y GRACIA PARA EJERCER DIGNAMENTE LAS FUNCIONES ECLESIÁSTICAS."},
+{n:116,q:"¿QUÉ ES LA ORACIÓN?",a:"LA ORACIÓN ES LA ELEVACIÓN DEL ALMA A DIOS PARA ADORARLO, DARLE GRACIAS Y PEDIRLE FAVORES, Y PUEDE SER MENTAL O VOCAL, SEGÚN SEA DE PENSAMIENTO O DE PALABRA, SIENDO EL PADRENUESTRO LA ORACIÓN MÁS EXCELENTE, PORQUE NOS LO ENSEÑÓ EL MISMO JESUCRISTO, Y DESPUÉS DEL PADRENUESTRO, ES EL AVEMARÍA."}
+];
+const DEFAULT_FOCUS=[2,20,32,35,46,55,74,87,92,94,107];
+
+let mode="all", deck=DATA.slice(), idx=0, revealed=false, focusIds=DEFAULT_FOCUS.slice();
+const $=s=>document.querySelector(s);
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+/* ---------- modo TODAS ---------- */
+function renderAll(){
+  const t=$("#search").value.trim().toLowerCase();
+  const list=DATA.filter(d=>!t||d.q.toLowerCase().includes(t)||d.a.toLowerCase().includes(t));
+  $("#viewAll").innerHTML = list.length? list.map(d=>`
+    <div class="card">
+      <span class="num">${d.n}</span>
+      <p class="q">${esc(d.q)}</p>
+      <p class="a ${hiddenAll?'hide':''}">${esc(d.a)}</p>
+    </div>`).join("") : `<div class="empty">Sin resultados para “${esc(t)}”.</div>`;
+}
+let hiddenAll=false;
+$("#search").addEventListener("input",renderAll);
+$("#toggleAll").onclick=()=>{
+  hiddenAll=!hiddenAll;
+  $("#toggleAll").textContent = hiddenAll?"Mostrar respuestas":"Ocultar respuestas";
+  renderAll();
+};
+
+/* ---------- modo UNA / ENFOCADA ---------- */
+function renderOne(){
+  if(!deck.length){ $("#oQ").textContent="No hay preguntas en este set."; $("#oA").classList.add("hide"); return; }
+  if(idx<0) idx=deck.length-1;
+  if(idx>=deck.length) idx=0;
+  const d=deck[idx];
+  $("#oNum").textContent=d.n;
+  $("#oQ").textContent=d.q;
+  $("#oA").textContent=d.a;
+  $("#oA").classList.toggle("hide",!revealed);
+  $("#show").textContent = revealed?"Ocultar respuesta":"Mostrar respuesta";
+  $("#progBar").style.width = ((idx+1)/deck.length*100)+"%";
+  $("#meta").textContent = `${idx+1} de ${deck.length}`+(mode==="focus"?" (set enfocado)":"");
+  if(mode==="focus") drawChips();
+}
+function drawChips(){
+  $("#chips").innerHTML = deck.map((d,i)=>
+    `<span class="chip ${i===idx?'on':''}" data-i="${i}">${d.n}</span>`).join("");
+}
+$("#chips").onclick=e=>{
+  if(e.target.dataset.i!==undefined){ idx=+e.target.dataset.i; revealed=false; renderOne(); }
+};
+$("#next").onclick=()=>{ idx++; revealed=false; renderOne(); };
+$("#prev").onclick=()=>{ idx--; revealed=false; renderOne(); };
+$("#show").onclick=()=>{ revealed=!revealed; renderOne(); };
+$("#shuffle").onclick=()=>{
+  for(let i=deck.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[deck[i],deck[j]]=[deck[j],deck[i]];}
+  idx=0;revealed=false;renderOne();
+};
+$("#reset").onclick=()=>{ deck=DATA.slice(); idx=0; revealed=false; renderOne(); };
+$("#jump").onchange=e=>{
+  const n=+e.target.value, i=deck.findIndex(d=>d.n===n);
+  if(i>=0){ idx=i; revealed=false; renderOne(); } e.target.value="";
+};
+function parseFocus(s){
+  return [...new Set(s.split(/[^0-9]+/).filter(Boolean).map(Number)
+    .filter(n=>n>=1&&n<=116))];
+}
+function applyFocus(){
+  focusIds=parseFocus($("#focusList").value);
+  if(!focusIds.length){ focusIds=DEFAULT_FOCUS.slice(); $("#focusList").value=focusIds.join(","); }
+  deck=focusIds.map(n=>DATA.find(d=>d.n===n)).filter(Boolean);
+  idx=0;revealed=false;
+  localStorage.setItem("focusSet",focusIds.join(","));
+  renderOne();
+}
+$("#applyFocus").onclick=applyFocus;
+$("#focusDefault").onclick=()=>{ $("#focusList").value=DEFAULT_FOCUS.join(","); applyFocus(); };
+
+/* ---------- cambio de modo ---------- */
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");
+  mode=b.dataset.m;
+  $("#viewAll").classList.toggle("hide",mode!=="all");
+  $("#viewOne").classList.toggle("hide",mode==="all");
+  $("#barAll").classList.toggle("hide",mode!=="all");
+  $("#barOne").classList.toggle("hide",mode!=="one");
+  $("#barFocus").classList.toggle("hide",mode!=="focus");
+  $("#chips").classList.toggle("hide",mode!=="focus");
+  if(mode==="all") renderAll();
+  if(mode==="one"){ deck=DATA.slice(); idx=0; revealed=false; renderOne(); }
+  if(mode==="focus") applyFocus();
+  location.hash=mode;
+});
+document.addEventListener("keydown",e=>{
+  if(mode==="all"||/INPUT/.test(e.target.tagName)) return;
+  if(e.key==="ArrowRight") $("#next").click();
+  if(e.key==="ArrowLeft") $("#prev").click();
+  if(e.key===" "){ e.preventDefault(); $("#show").click(); }
+});
+
+/* ---------- init ---------- */
+const saved=localStorage.getItem("focusSet");
+if(saved){ $("#focusList").value=saved; focusIds=parseFocus(saved); }
+renderAll();
+const h=location.hash.replace("#","");
+if(["one","focus"].includes(h)) document.querySelector(`.tab[data-m="${h}"]`).click();
+</script>
+</body>
+</html>
