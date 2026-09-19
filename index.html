@@ -2,101 +2,150 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>116 Preguntas · Primera Comunión y Confirmación</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1220">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>116 Preguntas - Primera Comunion y Confirmacion</title>
 <style>
 :root{
   --bg:#0f1220; --card:#181c2f; --card2:#20253d; --txt:#e9ecf5;
-  --muted:#9aa3c0; --acc:#7c5cff; --acc2:#22c55e; --brd:#2c3250;
+  --muted:#9aa3c0; --acc:#7c5cff; --acc2:#22c55e; --warn:#f59e0b; --brd:#2c3250;
+  --safeT:env(safe-area-inset-top,0px);
+  --safeB:env(safe-area-inset-bottom,0px);
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
 body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  background:var(--bg);color:var(--txt);line-height:1.55}
-header{position:sticky;top:0;z-index:10;background:rgba(15,18,32,.95);
-  backdrop-filter:blur(8px);border-bottom:1px solid var(--brd);padding:14px 16px}
+  background:var(--bg);color:var(--txt);line-height:1.55;overscroll-behavior-y:contain}
+header{position:sticky;top:0;z-index:20;background:rgba(15,18,32,.96);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--brd);
+  padding:calc(10px + var(--safeT)) 14px 12px}
 .wrap{max-width:860px;margin:0 auto}
-h1{font-size:1.05rem;margin:0 0 10px;font-weight:600}
-h1 span{color:var(--muted);font-weight:400;font-size:.85rem}
-.tabs{display:flex;gap:8px;flex-wrap:wrap}
-.tab{background:var(--card);border:1px solid var(--brd);color:var(--muted);
-  padding:8px 14px;border-radius:999px;cursor:pointer;font-size:.9rem}
-.tab.on{background:var(--acc);border-color:var(--acc);color:#fff}
-.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
-input[type=search],input[type=text]{background:var(--card);border:1px solid var(--brd);
-  color:var(--txt);padding:8px 12px;border-radius:8px;font-size:.9rem;flex:1;min-width:160px}
+h1{font-size:1rem;margin:0 0 10px;font-weight:600}
+h1 span{color:var(--muted);font-weight:400;font-size:.8rem;display:block}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;background:var(--card);border:1px solid var(--brd);color:var(--muted);
+  padding:9px 15px;border-radius:999px;cursor:pointer;font-size:.88rem;min-height:40px}
+.tab.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px}
+input[type=search],input[type=text],select{background:var(--card);border:1px solid var(--brd);
+  color:var(--txt);padding:10px 12px;border-radius:9px;font-size:16px;flex:1;min-width:0;
+  min-height:42px;-webkit-appearance:none}
 button.b{background:var(--card2);border:1px solid var(--brd);color:var(--txt);
-  padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.9rem}
-button.b:hover{border-color:var(--acc)}
-button.p{background:var(--acc);border-color:var(--acc);color:#fff}
-main{max-width:860px;margin:0 auto;padding:18px 16px 80px}
-.card{background:var(--card);border:1px solid var(--brd);border-radius:12px;
-  padding:16px 18px;margin-bottom:12px}
-.num{display:inline-block;background:var(--acc);color:#fff;font-size:.75rem;
-  font-weight:700;padding:2px 9px;border-radius:999px;margin-bottom:8px}
+  padding:10px 15px;border-radius:9px;cursor:pointer;font-size:.9rem;min-height:42px;
+  touch-action:manipulation;white-space:nowrap}
+button.b:active{transform:scale(.97)}
+button.p{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+button.g{background:var(--acc2);border-color:var(--acc2);color:#04140a;font-weight:700}
+main{max-width:860px;margin:0 auto;padding:16px 14px calc(120px + var(--safeB))}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:14px;
+  padding:15px 16px;margin-bottom:11px}
+.num{display:inline-block;background:var(--acc);color:#fff;font-size:.72rem;
+  font-weight:700;padding:3px 10px;border-radius:999px;margin-bottom:8px}
+.num.rnd{background:var(--warn);color:#241a02}
 .q{font-weight:600;margin:0 0 10px}
 .a{color:#c9f7d8;background:#14281d;border-left:3px solid var(--acc2);
-  padding:10px 12px;border-radius:0 8px 8px 0;margin:0}
+  padding:11px 13px;border-radius:0 9px 9px 0;margin:0}
 .hide{display:none}
-.solo{min-height:46vh;display:flex;flex-direction:column;justify-content:center}
-.solo .q{font-size:1.3rem;text-align:center}
-.solo .a{font-size:1.05rem}
-.nav{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:16px;flex-wrap:wrap}
-.prog{height:6px;background:var(--card2);border-radius:999px;overflow:hidden;margin-top:12px}
+.solo{min-height:44vh;display:flex;flex-direction:column;justify-content:center;touch-action:pan-y}
+.solo .q{font-size:1.25rem;text-align:center;line-height:1.4}
+.solo .a{font-size:1rem}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:15;display:flex;gap:8px;
+  padding:10px 14px calc(10px + var(--safeB));background:rgba(15,18,32,.97);
+  backdrop-filter:blur(10px);border-top:1px solid var(--brd)}
+.nav button{flex:1}
+.nav .side{flex:0 0 58px;font-size:1.15rem}
+.prog{height:6px;background:var(--card2);border-radius:999px;overflow:hidden;margin-top:14px}
 .prog i{display:block;height:100%;background:var(--acc);width:0;transition:.25s}
-.meta{text-align:center;color:var(--muted);font-size:.85rem;margin-top:8px}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.chip{background:var(--card2);border:1px solid var(--brd);color:var(--muted);
-  padding:4px 10px;border-radius:999px;font-size:.8rem;cursor:pointer}
+.meta{text-align:center;color:var(--muted);font-size:.82rem;margin-top:8px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:10px;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;background:var(--card2);border:1px solid var(--brd);color:var(--muted);
+  padding:6px 12px;border-radius:999px;font-size:.82rem;cursor:pointer;min-height:34px}
 .chip.on{background:var(--acc2);border-color:var(--acc2);color:#04140a;font-weight:700}
-.empty{color:var(--muted);text-align:center;padding:40px 0}
+.chip.done{opacity:.45}
+.empty{color:var(--muted);text-align:center;padding:40px 14px}
+.stats{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.pill{background:var(--card2);border:1px solid var(--brd);border-radius:999px;
+  padding:5px 12px;font-size:.8rem;color:var(--muted)}
+.pill b{color:var(--txt)}
 kbd{background:var(--card2);border:1px solid var(--brd);border-radius:4px;
-  padding:1px 6px;font-size:.75rem;color:var(--muted)}
-@media(max-width:520px){.solo .q{font-size:1.1rem}}
+  padding:1px 6px;font-size:.72rem;color:var(--muted)}
+.hint{text-align:center;color:var(--muted);font-size:.76rem;margin-top:6px}
+@media(max-width:560px){
+  .solo .q{font-size:1.1rem}
+  .solo{min-height:38vh}
+  h1{font-size:.92rem}
+  .k{display:none}
+}
+@media(min-width:561px){h1 span{display:inline}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
-  <h1>116 Preguntas para el Examen <span>· Primera Comunión y Confirmación</span></h1>
+  <h1>116 Preguntas <span>&middot; Primera Comuni&oacute;n y Confirmaci&oacute;n</span></h1>
   <div class="tabs">
     <button class="tab on" data-m="all">Todas</button>
     <button class="tab" data-m="one">Una por una</button>
     <button class="tab" data-m="focus">Enfocada</button>
+    <button class="tab" data-m="rand">&#127922; Random</button>
   </div>
+
   <div class="bar" id="barAll">
-    <input type="search" id="search" placeholder="Buscar en preguntas y respuestas…">
-    <button class="b" id="toggleAll">Ocultar respuestas</button>
+    <input type="search" id="search" placeholder="Buscar pregunta o respuesta...">
+    <button class="b" id="toggleAll">Ocultar resp.</button>
   </div>
+
   <div class="bar hide" id="barOne">
-    <button class="b" id="shuffle">Aleatorio</button>
-    <button class="b" id="reset">Orden 1→116</button>
-    <input type="text" id="jump" placeholder="Ir al N.º" style="max-width:110px;flex:0">
+    <button class="b" id="reset">Orden 1&rarr;116</button>
+    <input type="text" id="jump" inputmode="numeric" placeholder="Ir al N." style="max-width:110px;flex:0 0 110px">
   </div>
+
   <div class="bar hide" id="barFocus">
-    <input type="text" id="focusList" value="2,20,32,35,46,55,74,87,92,94,107">
+    <input type="text" id="focusList" inputmode="numeric" value="2,20,32,35,46,55,74,87,92,94,107">
     <button class="b p" id="applyFocus">Aplicar</button>
-    <button class="b" id="focusDefault">Set por defecto</button>
+    <button class="b" id="focusDefault">Default</button>
   </div>
+
+  <div class="bar hide" id="barRand">
+    <select id="randPool">
+      <option value="all">Todas las 116</option>
+      <option value="focus">Solo set enfocado</option>
+    </select>
+    <button class="b g" id="reshuffle">&#127922; Rebarajar</button>
+  </div>
+
   <div class="chips hide" id="chips"></div>
 </div></header>
 
 <main>
   <div id="viewAll"></div>
   <div id="viewOne" class="hide">
-    <div class="card solo">
+    <div class="card solo" id="soloCard">
       <span class="num" id="oNum">1</span>
       <p class="q" id="oQ"></p>
       <p class="a hide" id="oA"></p>
     </div>
-    <div class="nav">
-      <button class="b" id="prev">← Anterior</button>
-      <button class="b p" id="show">Mostrar respuesta</button>
-      <button class="b" id="next">Siguiente →</button>
-    </div>
     <div class="prog"><i id="progBar"></i></div>
     <div class="meta" id="meta"></div>
-    <div class="meta">Atajos: <kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>espacio</kbd> respuesta</div>
+    <div class="stats hide" id="stats">
+      <span class="pill">Vistas <b id="sSeen">0</b></span>
+      <span class="pill">Restantes <b id="sLeft">0</b></span>
+      <span class="pill">Ronda <b id="sRound">1</b></span>
+    </div>
+    <div class="hint">Desliza &larr; &rarr; para cambiar &middot; toca la tarjeta para revelar</div>
+    <div class="hint k">Teclas: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> &middot; <kbd>espacio</kbd> respuesta &middot; <kbd>R</kbd> rebarajar</div>
   </div>
 </main>
+
+<div class="nav hide" id="navBar">
+  <button class="b side" id="prev" aria-label="Anterior">&larr;</button>
+  <button class="b p" id="show">Mostrar respuesta</button>
+  <button class="b side" id="next" aria-label="Siguiente">&rarr;</button>
+</div>
 
 <script>
 const DATA=[
@@ -219,107 +268,148 @@ const DATA=[
 ];
 const DEFAULT_FOCUS=[2,20,32,35,46,55,74,87,92,94,107];
 
-let mode="all", deck=DATA.slice(), idx=0, revealed=false, focusIds=DEFAULT_FOCUS.slice();
+let mode="all",deck=DATA.slice(),idx=0,revealed=false,
+    focusIds=DEFAULT_FOCUS.slice(),seen=new Set(),round=1,hiddenAll=false;
 const $=s=>document.querySelector(s);
 const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
-/* ---------- modo TODAS ---------- */
+function shuffle(a){
+  const r=a.slice();
+  for(let i=r.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[r[i],r[j]]=[r[j],r[i]];}
+  return r;
+}
+
 function renderAll(){
   const t=$("#search").value.trim().toLowerCase();
   const list=DATA.filter(d=>!t||d.q.toLowerCase().includes(t)||d.a.toLowerCase().includes(t));
-  $("#viewAll").innerHTML = list.length? list.map(d=>`
-    <div class="card">
-      <span class="num">${d.n}</span>
-      <p class="q">${esc(d.q)}</p>
-      <p class="a ${hiddenAll?'hide':''}">${esc(d.a)}</p>
-    </div>`).join("") : `<div class="empty">Sin resultados para “${esc(t)}”.</div>`;
+  $("#viewAll").innerHTML=list.length?list.map(d=>
+    '<div class="card"><span class="num">'+d.n+'</span><p class="q">'+esc(d.q)+
+    '</p><p class="a '+(hiddenAll?'hide':'')+'">'+esc(d.a)+'</p></div>').join("")
+    :'<div class="empty">Sin resultados para "'+esc(t)+'".</div>';
 }
-let hiddenAll=false;
 $("#search").addEventListener("input",renderAll);
 $("#toggleAll").onclick=()=>{
   hiddenAll=!hiddenAll;
-  $("#toggleAll").textContent = hiddenAll?"Mostrar respuestas":"Ocultar respuestas";
+  $("#toggleAll").textContent=hiddenAll?"Ver resp.":"Ocultar resp.";
   renderAll();
 };
 
-/* ---------- modo UNA / ENFOCADA ---------- */
 function renderOne(){
-  if(!deck.length){ $("#oQ").textContent="No hay preguntas en este set."; $("#oA").classList.add("hide"); return; }
-  if(idx<0) idx=deck.length-1;
-  if(idx>=deck.length) idx=0;
+  if(!deck.length){$("#oQ").textContent="No hay preguntas en este set.";$("#oA").classList.add("hide");return;}
+  if(idx<0)idx=deck.length-1;
+  if(idx>=deck.length){
+    if(mode==="rand"){deck=shuffle(deck);idx=0;round++;seen.clear();}
+    else idx=0;
+  }
   const d=deck[idx];
+  seen.add(d.n);
   $("#oNum").textContent=d.n;
+  $("#oNum").classList.toggle("rnd",mode==="rand");
   $("#oQ").textContent=d.q;
   $("#oA").textContent=d.a;
   $("#oA").classList.toggle("hide",!revealed);
-  $("#show").textContent = revealed?"Ocultar respuesta":"Mostrar respuesta";
-  $("#progBar").style.width = ((idx+1)/deck.length*100)+"%";
-  $("#meta").textContent = `${idx+1} de ${deck.length}`+(mode==="focus"?" (set enfocado)":"");
-  if(mode==="focus") drawChips();
+  $("#show").textContent=revealed?"Ocultar respuesta":"Mostrar respuesta";
+  $("#progBar").style.width=((idx+1)/deck.length*100)+"%";
+  $("#meta").textContent=(idx+1)+" de "+deck.length+
+    (mode==="focus"?" \u00b7 set enfocado":mode==="rand"?" \u00b7 orden aleatorio":"");
+  $("#stats").classList.toggle("hide",mode!=="rand");
+  if(mode==="rand"){
+    $("#sSeen").textContent=seen.size;
+    $("#sLeft").textContent=deck.length-(idx+1);
+    $("#sRound").textContent=round;
+  }
+  if(mode==="focus"||mode==="rand")drawChips(); else $("#chips").innerHTML="";
 }
 function drawChips(){
-  $("#chips").innerHTML = deck.map((d,i)=>
-    `<span class="chip ${i===idx?'on':''}" data-i="${i}">${d.n}</span>`).join("");
+  $("#chips").innerHTML=deck.map((d,i)=>
+    '<span class="chip '+(i===idx?'on':i<idx?'done':'')+'" data-i="'+i+'">'+d.n+'</span>').join("");
+  const on=$("#chips .chip.on");
+  if(on)on.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});
 }
 $("#chips").onclick=e=>{
-  if(e.target.dataset.i!==undefined){ idx=+e.target.dataset.i; revealed=false; renderOne(); }
+  if(e.target.dataset.i!==undefined){idx=+e.target.dataset.i;revealed=false;renderOne();}
 };
-$("#next").onclick=()=>{ idx++; revealed=false; renderOne(); };
-$("#prev").onclick=()=>{ idx--; revealed=false; renderOne(); };
-$("#show").onclick=()=>{ revealed=!revealed; renderOne(); };
-$("#shuffle").onclick=()=>{
-  for(let i=deck.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[deck[i],deck[j]]=[deck[j],deck[i]];}
-  idx=0;revealed=false;renderOne();
-};
-$("#reset").onclick=()=>{ deck=DATA.slice(); idx=0; revealed=false; renderOne(); };
+$("#next").onclick=()=>{idx++;revealed=false;renderOne();};
+$("#prev").onclick=()=>{idx--;revealed=false;renderOne();};
+$("#show").onclick=()=>{revealed=!revealed;renderOne();};
+$("#soloCard").onclick=e=>{if(!e.target.closest("button")){revealed=!revealed;renderOne();}};
+$("#reset").onclick=()=>{deck=DATA.slice();idx=0;revealed=false;renderOne();};
 $("#jump").onchange=e=>{
-  const n=+e.target.value, i=deck.findIndex(d=>d.n===n);
-  if(i>=0){ idx=i; revealed=false; renderOne(); } e.target.value="";
+  const i=deck.findIndex(d=>d.n===+e.target.value);
+  if(i>=0){idx=i;revealed=false;renderOne();}
+  e.target.value="";
 };
+
+function buildRandom(){
+  const pool=$("#randPool").value==="focus"
+    ? focusIds.map(n=>DATA.find(d=>d.n===n)).filter(Boolean)
+    : DATA.slice();
+  deck=shuffle(pool);idx=0;revealed=false;seen.clear();round=1;
+  localStorage.setItem("randPool",$("#randPool").value);
+  renderOne();
+}
+$("#reshuffle").onclick=()=>{deck=shuffle(deck);idx=0;revealed=false;seen.clear();round++;renderOne();};
+$("#randPool").onchange=buildRandom;
+
 function parseFocus(s){
-  return [...new Set(s.split(/[^0-9]+/).filter(Boolean).map(Number)
-    .filter(n=>n>=1&&n<=116))];
+  return [...new Set(s.split(/[^0-9]+/).filter(Boolean).map(Number).filter(n=>n>=1&&n<=116))];
 }
 function applyFocus(){
   focusIds=parseFocus($("#focusList").value);
-  if(!focusIds.length){ focusIds=DEFAULT_FOCUS.slice(); $("#focusList").value=focusIds.join(","); }
+  if(!focusIds.length){focusIds=DEFAULT_FOCUS.slice();$("#focusList").value=focusIds.join(",");}
   deck=focusIds.map(n=>DATA.find(d=>d.n===n)).filter(Boolean);
   idx=0;revealed=false;
   localStorage.setItem("focusSet",focusIds.join(","));
   renderOne();
 }
 $("#applyFocus").onclick=applyFocus;
-$("#focusDefault").onclick=()=>{ $("#focusList").value=DEFAULT_FOCUS.join(","); applyFocus(); };
+$("#focusDefault").onclick=()=>{$("#focusList").value=DEFAULT_FOCUS.join(",");applyFocus();};
 
-/* ---------- cambio de modo ---------- */
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
-  b.classList.add("on");
-  mode=b.dataset.m;
-  $("#viewAll").classList.toggle("hide",mode!=="all");
-  $("#viewOne").classList.toggle("hide",mode==="all");
-  $("#barAll").classList.toggle("hide",mode!=="all");
-  $("#barOne").classList.toggle("hide",mode!=="one");
-  $("#barFocus").classList.toggle("hide",mode!=="focus");
-  $("#chips").classList.toggle("hide",mode!=="focus");
-  if(mode==="all") renderAll();
-  if(mode==="one"){ deck=DATA.slice(); idx=0; revealed=false; renderOne(); }
-  if(mode==="focus") applyFocus();
-  location.hash=mode;
-});
+function setMode(m){
+  mode=m;
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.m===m));
+  $("#viewAll").classList.toggle("hide",m!=="all");
+  $("#viewOne").classList.toggle("hide",m==="all");
+  $("#navBar").classList.toggle("hide",m==="all");
+  $("#barAll").classList.toggle("hide",m!=="all");
+  $("#barOne").classList.toggle("hide",m!=="one");
+  $("#barFocus").classList.toggle("hide",m!=="focus");
+  $("#barRand").classList.toggle("hide",m!=="rand");
+  $("#chips").classList.toggle("hide",m!=="focus"&&m!=="rand");
+  if(m==="all")renderAll();
+  if(m==="one"){deck=DATA.slice();idx=0;revealed=false;renderOne();}
+  if(m==="focus")applyFocus();
+  if(m==="rand")buildRandom();
+  location.hash=m;
+  window.scrollTo({top:0});
+}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+
+let tx=0,ty=0;
+const card=$("#soloCard");
+card.addEventListener("touchstart",e=>{tx=e.changedTouches[0].clientX;ty=e.changedTouches[0].clientY;},{passive:true});
+card.addEventListener("touchend",e=>{
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){
+    if(dx<0)$("#next").click(); else $("#prev").click();
+  }
+},{passive:true});
+
 document.addEventListener("keydown",e=>{
-  if(mode==="all"||/INPUT/.test(e.target.tagName)) return;
-  if(e.key==="ArrowRight") $("#next").click();
-  if(e.key==="ArrowLeft") $("#prev").click();
-  if(e.key===" "){ e.preventDefault(); $("#show").click(); }
+  if(mode==="all"||/INPUT|SELECT/.test(e.target.tagName))return;
+  if(e.key==="ArrowRight")$("#next").click();
+  if(e.key==="ArrowLeft")$("#prev").click();
+  if(e.key===" "){e.preventDefault();$("#show").click();}
+  if(e.key==="r"||e.key==="R"){if(mode==="rand")$("#reshuffle").click();}
 });
 
-/* ---------- init ---------- */
-const saved=localStorage.getItem("focusSet");
-if(saved){ $("#focusList").value=saved; focusIds=parseFocus(saved); }
+const savedF=localStorage.getItem("focusSet");
+if(savedF){$("#focusList").value=savedF;focusIds=parseFocus(savedF);}
+const savedP=localStorage.getItem("randPool");
+if(savedP)$("#randPool").value=savedP;
 renderAll();
 const h=location.hash.replace("#","");
-if(["one","focus"].includes(h)) document.querySelector(`.tab[data-m="${h}"]`).click();
+setMode(["one","focus","rand"].includes(h)?h:"all");
 </script>
 </body>
 </html>
